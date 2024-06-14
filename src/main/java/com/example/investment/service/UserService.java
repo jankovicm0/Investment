@@ -26,11 +26,11 @@ public class UserService implements UserDetailsService {
     }
 
     public User registerUser(String username, String password) {
-        // Your user registration logic here
+        
         User user = new User();
         user.setUsername(username);
         user.setPassword(password);
-        // Save user to the database
+        
         return userRepository.save(user);
     }
 
