@@ -1,14 +1,13 @@
 API Dokumentacija
+
 1. Registracija korisnika
 Endpoint: /api/users/register
-
 Metoda: POST
-
 URL: http://localhost:8080/api/users/register
 
-Opis: Registracija novog korisnika sa inicijalnim stanjem od $1000.
+Opis: Registracija novog korisnika.
 
-Telo Zahteva (JSON):
+Telo Zahteva :
 
 json
 Copy code
@@ -16,7 +15,7 @@ Copy code
     "username": "newuser",
     "password": "newpassword"
 }
-Primer Odgovora (JSON):
+Primer Odgovora :
 
 json
 Copy code
@@ -25,9 +24,7 @@ Copy code
 }
 2. Prijava korisnika
 Endpoint: /api/users/login
-
 Metoda: POST
-
 URL: http://localhost:8080/api/users/login
 
 Opis: Prijava korisnika i generisanje JWT tokena za autentifikaciju.
@@ -49,18 +46,14 @@ Copy code
 }
 3. Kupovina akcija
 Endpoint: /api/stocks/buy
-
 Metoda: POST
-
 URL: http://localhost:8080/api/stocks/buy
 
-Opis: Kupovina akcija od strane korisnika. Ovaj endpoint zahteva autentifikaciju.
-
-Zaglavlja:
+Opis: Kupovina akcija od strane korisnika.
 
 Content-Type: application/json
 Authorization: Bearer YOUR_JWT_TOKEN
-Telo Zahteva (JSON):
+Telo Zahteva :
 
 json
 Copy code
@@ -74,7 +67,7 @@ Copy code
     "quantity": 10,
     "price": 150.00
 }
-Primer Odgovora (JSON):
+Primer Odgovora :
 
 json
 Copy code
