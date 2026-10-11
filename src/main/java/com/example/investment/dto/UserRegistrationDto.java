@@ -1,7 +1,15 @@
 package com.example.investment.dto;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 public class UserRegistrationDto {
+    @NotBlank
+    @Size(max = 80)
     private String username;
+
+    @NotBlank
+    @Size(min = 8, max = 128)
     private String password;
 
     public String getUsername() {
