@@ -1,51 +1,61 @@
-document.getElementById('register-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const username = document.getElementById('register-username').value;
-    const password = document.getElementById('register-password').value;
+(function () {
+    'use strict';
 
-    fetch('http://localhost:8080/api/users/register', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            username: username,
-            password: password
-        })
-    })
-        .then(response => response.json())
-        .then(data => {
-            alert('Registration successful');
-            console.log(data);
-        })
-        .catch(error => {
-            alert('Registration failed');
-            console.error(error);
+    async function post(url, payload, responseType) {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
         });
-});
+        // Registration currently returns plain text; login returns JSON.
+        const body = responseType === 'json'
+            ? await response.json().catch(() => null)
+            : await response.text();
+        if (!response.ok) {
+            throw new Error(typeof body === 'string' && body
+                ? body
+                : 'Request failed. Please check your details.');
+        }
+        return body;
+    }
 
-document.getElementById('login-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const username = document.getElementById('login-username').value;
-    const password = document.getElementById('login-password').value;
-
-    fetch('http://localhost:8080/api/users/login', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            username: username,
-            password: password
-        })
-    })
-        .then(response => response.json())
-        .then(data => {
-            alert('Login successful');
-            console.log(data);
-        })
-        .catch(error => {
-            alert('Login failed');
-            console.error(error);
+    function bindForm(formId, statusId, url, responseType, getPayload, successText) {
+        const form = document.getElementById(formId);
+        const status = document.getElementById(statusId);
+        form.addEventListener('submit', async function (event) {
+            event.preventDefault();
+            const button = form.querySelector('button[type="submit"]');
+            button.disabled = true;
+            status.classList.remove('error');
+            status.textContent = 'Sending request…';
+            try {
+                const body = await post(url, getPayload(), responseType);
+                if (responseType === 'json' && (!body || !body.jwt)) {
+                    throw new Error('The server did not return an authentication token.');
+                }
+                // Do not log, display or persist JWT tokens in this demo page.
+                status.textContent = successText;
+                form.querySelector('input[type="password"]').value = '';
+            } catch (error) {
+                status.classList.add('error');
+                status.textContent = error.message || 'Unable to reach the API.';
+            } finally {
+                button.disabled = false;
+            }
         });
-});
+    }
+
+    bindForm('register-form', 'register-status', '/api/users/register', 'text', function () {
+        return {
+            username: document.getElementById('register-username').value.trim(),
+            password: document.getElementById('register-password').value
+        };
+    }, 'Demo account created. You can now try signing in.');
+
+    bindForm('login-form', 'login-status', '/api/users/login', 'json', function () {
+        return {
+            username: document.getElementById('login-username').value.trim(),
+            password: document.getElementById('login-password').value
+        };
+    }, 'Login succeeded; a demo JWT was issued (not stored on this page).');
+})();
