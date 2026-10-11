@@ -3,30 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration and Login</title>
+    <meta name="description" content="Investment API learning project — a Java and Spring Boot authentication demo.">
+    <title>Investment API | Demo</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="container">
-    <div class="form-container">
-        <h2>Register</h2>
-        <form id="register-form">
-            <input type="text" id="register-username" placeholder="Username" required>
-            <input type="password" id="register-password" placeholder="Password" required>
-            <button type="submit">Register</button>
-        </form>
-    </div>
+    <main class="app-shell">
+        <header class="hero">
+            <span class="eyebrow">UNIVERSITY PROJECT · JAVA & SPRING BOOT</span>
+            <h1>Investment API</h1>
+            <p class="subtitle">A small registration and login demo for a Java and Spring Boot stock-trading API.</p>
+            <p class="notice"><strong>Educational demo only.</strong> No real money, accounts, or financial transactions.</p>
+        </header>
 
-    <div class="form-container">
-        <h2>Login</h2>
-        <form id="login-form">
-            <input type="text" id="login-username" placeholder="Username" required>
-            <input type="password" id="login-password" placeholder="Password" required>
-            <button type="submit">Login</button>
-        </form>
-    </div>
-</div>
+        <section class="auth-grid" aria-label="Authentication forms">
+            <article class="panel">
+                <div class="panel-number" aria-hidden="true">01</div>
+                <h2>Create an account</h2>
+                <p>Register a sample user to explore the backend API.</p>
+                <form id="register-form">
+                    <label for="register-username">Username</label>
+                    <input type="text" id="register-username" name="username" autocomplete="username" maxlength="80" required>
 
-<script src="scripts.js"></script>
+                    <label for="register-password">Password</label>
+                    <input type="password" id="register-password" name="password" autocomplete="new-password" minlength="8" maxlength="128" required>
+
+                    <button type="submit">Create demo account</button>
+                    <p class="status" id="register-status" role="status" aria-live="polite"></p>
+                </form>
+            </article>
+
+            <article class="panel">
+                <div class="panel-number" aria-hidden="true">02</div>
+                <h2>Sign in</h2>
+                <p>Test JWT authentication with your demo credentials.</p>
+                <form id="login-form">
+                    <label for="login-username">Username</label>
+                    <input type="text" id="login-username" name="username" autocomplete="username" required>
+
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" name="password" autocomplete="current-password" required>
+
+                    <button type="submit">Sign in</button>
+                    <p class="status" id="login-status" role="status" aria-live="polite"></p>
+                </form>
+            </article>
+        </section>
+
+        <footer class="footer">This page demonstrates registration and login only. It is not an authenticated trading dashboard. <a href="https://github.com/jankovicm0/Investment">View the source code ↗</a></footer>
+    </main>
+    <script src="scripts.js"></script>
 </body>
 </html>
