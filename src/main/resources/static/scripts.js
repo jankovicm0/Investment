@@ -7,7 +7,6 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
         });
-        // Registration currently returns plain text; login returns JSON.
         const body = responseType === 'json'
             ? await response.json().catch(() => null)
             : await response.text();
@@ -33,7 +32,6 @@
                 if (responseType === 'json' && (!body || !body.jwt)) {
                     throw new Error('The server did not return an authentication token.');
                 }
-                // Do not log, display or persist JWT tokens in this demo page.
                 status.textContent = successText;
                 form.querySelector('input[type="password"]').value = '';
             } catch (error) {
