@@ -24,17 +24,18 @@ You'll need **Java 11** and **MySQL**.
 
 1. Create a local MySQL database.
 2. Configure `spring.datasource.url`, `spring.datasource.username` and `spring.datasource.password` for your own local setup.
-3. Run:
+3. Set a local JWT signing key and start the app:
 
 ```bash
-./mvnw spring-boot:run
+export JWT_SECRET="$(openssl rand -hex 32)"
+bash ./mvnw spring-boot:run
 ```
 
 On Windows, use `mvnw.cmd spring-boot:run`. The application normally starts on `http://localhost:8080`.
 
-If you've applied the security changes in [PR #2](https://github.com/jankovicm0/Investment/pull/2), you'll also need to set `JWT_SECRET` to a long, randomly generated value before starting the app.
+The `JWT_SECRET` environment variable is required. Keep it out of the repository, and use a different value for each environment.
 
-**Don't deploy the current version publicly or use real financial data.** The JWT signing key and user/resource authorization are among the parts being improved.
+**Don't deploy the current version publicly or use real financial data.** The original JWT keys remain visible in Git history, and resource-level authorization is still incomplete.
 
 ## API
 
