@@ -57,7 +57,6 @@ public class UserController {
             return ResponseEntity.badRequest().body("Ime je zauzeto");
         }
 
-        // Never persist identifiers or account balances from an untrusted request.
         User user = new User();
         user.setUsername(request.getUsername());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
