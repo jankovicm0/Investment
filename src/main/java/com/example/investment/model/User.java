@@ -1,6 +1,7 @@
 package com.example.investment.model;
 
 import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 public class User {
@@ -9,6 +10,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     private Double balance;
 
