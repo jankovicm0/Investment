@@ -1,5 +1,6 @@
 package com.example.investment.controller;
 
+import com.example.investment.dto.UserRegistrationDto;
 import com.example.investment.model.User;
 import com.example.investment.repository.UserRepository;
 import com.example.investment.security.AuthenticationRequest;
@@ -13,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/users")
@@ -50,11 +52,15 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody User user) {
-        if (userRepository.findByUsername(user.getUsername()) != null) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody UserRegistrationDto request) {
+        if (userRepository.findByUsername(request.getUsername()) != null) {
             return ResponseEntity.badRequest().body("Ime je zauzeto");
         }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        // Never persist identifiers or account balances from an untrusted request.
+        User user = new User();
+        user.setUsername(request.getUsername());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setBalance(1000.00);
         userRepository.save(user);
         return ResponseEntity.ok("Uspesna registracija");
