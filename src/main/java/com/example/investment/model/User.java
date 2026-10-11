@@ -10,7 +10,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
-    // Accept incoming password fields when needed, but never serialize password hashes.
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     private Double balance;
